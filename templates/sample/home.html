@@ -1,0 +1,21 @@
+{% load mdBootstrap %}
+
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <title>Sample of MDBootstrap for Django</title>
+
+        {% LoadCSS %}
+        {% LoadJS %}
+        {% LoadFontAwesome %}
+    </head>
+    <body>
+        <h1>
+            Ceci est une page test pour MDBootstrap for Django
+        </h1>
+        <p>
+            Nous testons les tags ici.<br />
+            {% SolidIcon "ad" %} {% SolidIcon "ad" "2em" "blue" %} {% SolidIcon "ad" color="#0e601b" %} {% SolidIcon "ad" "64px" "red" %}
+        </p>
+    </body>
+</html>
