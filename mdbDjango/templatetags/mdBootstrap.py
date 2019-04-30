@@ -1,10 +1,19 @@
+#################################################
+#   mdbDjango/templatetags/mdBootstrap.py
+#   =============================
+#   AUTHOR : Godefroy Borduas
+#   EMAIL : pro@godefroyborduas.ca
+#   DATE : 12 avril 2019
+#   LICENCE : MIT
+#################################################
 from django import template
 from django.utils.safestring import mark_safe
 from django.utils.html import format_html
+# MBDjango import
+from mdbDjango.utils.navigation import Nav1Colums
 
 # Enregistrement des tags de l'application
 register = template.Library()
-
 
 #################################################
 #   HTML HEADER SECTION
@@ -55,3 +64,23 @@ def SolidIcon(iconName, fontSize = "3em", color = "black") :
     ''' Retourne l'icone "Font Awesome" demandé dans sa version Solid. '''
     return format_html('<span style="font-size: {}; color: {};"><i class="fas fa-{}"></i></span>'.format(
         fontSize, color, iconName))
+
+#################################################
+#   NAVIGATIONS
+#################################################
+def Nav(navigation, activeLink = None) :
+        col1, col2 = None, None
+        is1Col = isinstance(navigation, Nav1Colums)
+        if not is1Col :
+                col1, col2 = navigation.GetElementsList()
+        else :
+                col1 = navigation.GetElementList()
+                col2 = navigation._align
+        
+        return {'is1Col' : is1Col,
+                'title' : navigation._navTile,
+                'link' : navigation._homeLink,
+                'col1' : col1,
+                'col2' : col2,
+                'idActiveLink' : activeLink}
+

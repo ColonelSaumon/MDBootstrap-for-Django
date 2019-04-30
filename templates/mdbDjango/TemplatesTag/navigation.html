@@ -1,0 +1,35 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark pink scrolling-navbar">
+    <a class="navbar-brand" href="{{ link }}"><strong>{{ title }}</strong></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    {% comment %}
+        Cette section gère l'affichage d'un menu à deux colonnes.
+    {% endcomment %}
+    {% if is1Col is not True %}
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        {# Colonne gauche #}
+        <ul class="navbar-nav mr-auto">
+            {% for element in col1 %}
+                {{ element.ShowHTML(idActiveLink) }}
+            {% endfor %}
+        </ul>
+        <ul class="navbar-nav nav-flex-icons">
+            {% for element in col2 %}
+                {{ element.ShowHTML(idActiveLink) }}
+            {% endfor %}
+        </ul>
+    </div>
+    {% else %}
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        {# Colonne gauche #}
+        <ul class="navbar-nav mr-auto {% if col2 is 1 %}float-left
+        {% elif col2 is 2 %}float-center{% else %}float-right{% endif %}">
+            {% for element in col1 %}
+                {{ element.ShowHTML(idActiveLink) }}
+            {% endfor %}
+        </ul>float-left
+    </div>
+    {% endif %}
+  </nav>
