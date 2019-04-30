@@ -20,6 +20,16 @@ class NAV_TYPE(Enum) :
     ICON = 2
     TEXT_ICON = 3
 
+class ICON(Enum) :
+    SOLID = 1
+    BRANDS = 2
+
+    def __str__(self) :
+        if self.value is 1 :
+            return "fas"
+        else :
+            return "fab"
+
 #################################################
 #   NAVIGATION
 #################################################
@@ -30,6 +40,10 @@ class Navigation() :
     _navTitle = ""
     _homeLink = "#"
     _navElements = []
+
+    def __init__(self, title, link) :
+        self._navTitle = title
+        self._homeLink = link
 
     def AddElement(self, element) :
         ''' Permet d'ajouter un élément de navigation de type
@@ -46,12 +60,19 @@ class Nav1Colums(Navigation) :
     une colonne. '''
     _align = ALIGN.LEFT
 
+    def __init__(self, title, link, align = ALIGN.LEFT) :
+        self._align = align
+        Navigation.__init__(self, title, link)
+
 class Nav2Colums(Navigation) :
     '''Cette contient l'ensemble des éléments nécessaires à l'affichage
     du menu de navigation à deux colonnes. Il ne gère pas le type d'affichage (fixe,
     couleur, etc.), mais simplement les éléments contenus. Le menu généré est à
     deux colonnes (gauche et droite).'''
     _rightElement = []
+
+    def __init__(self, title, link) :
+        Navigation.__init__(self, title, link)
 
     def AddElement(self, element, atLeft = True) :
         if atLeft :
@@ -73,6 +94,11 @@ class NavElement() :
     _id = None
     _url = "#"
 
+    def __init__(self, text, url, id = None) :
+        self._text = text
+        self._id = id
+        self._url = url
+
     def ShowHTML(self, idActive) :
         active = ''
         if self._id is idActive :
@@ -83,3 +109,30 @@ class NavElement() :
         html += '\t\t{}\n\t</a>\n</li>\n'.format(self._text)
         
         return html
+
+class TextElement(NavElement) :
+    pass
+
+class TextIconElement(NavElement) :
+    _icon = ""
+    _type = ICON.SOLID
+
+    def __init__(self, text, icon, url, iconType = ICON.SOLID, id = None) :
+        self._icon = icon
+        self._type = iconType
+        NavElement.__init__(self, text, url, id)
+
+    def ShowHTML(self, idActive) :
+        active = ''
+        if self._id is idActive :
+            active = ' active'
+        
+        html = '<li class="nav-item{}">\n'.format(active)
+        html += '\t<a class="nav-link" id="{}" href="{}">'.format(self._id, self._url)
+        html += '<i class="{} fa-{}>{}</i></a>\n</li>\n'.format(self._type, self._icon, self._text)
+        
+        return html
+
+class IconElement(TextIconElement) :
+    def __init__(self, icon, url, iconType = ICON.SOLID, id = None) :
+        TextIconElement.__init__(self, "", icon, url, iconType, id)

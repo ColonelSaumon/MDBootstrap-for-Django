@@ -65,22 +65,32 @@ def SolidIcon(iconName, fontSize = "3em", color = "black") :
     return format_html('<span style="font-size: {}; color: {};"><i class="fas fa-{}"></i></span>'.format(
         fontSize, color, iconName))
 
+@register.simple_tag
+def BrandsIcon(iconName, fontSize = "3em", color = "black") :
+    ''' Retourne l'icone "Font Awesome" demandé dans sa version Solid. '''
+    return format_html('<span style="font-size: {}; color: {};"><i class="fab fa-{}"></i></span>'.format(
+        fontSize, color, iconName))
+
 #################################################
 #   NAVIGATIONS
 #################################################
-def Nav(navigation, activeLink = None) :
-        col1, col2 = None, None
-        is1Col = isinstance(navigation, Nav1Colums)
-        if not is1Col :
-                col1, col2 = navigation.GetElementsList()
-        else :
-                col1 = navigation.GetElementList()
-                col2 = navigation._align
+@register.inclusion_tag('navigation.html')
+def Nav(navigation, color, activeLink = None) :
+    ''' Permet d'afficher un menu avec les informations prévus dans
+    l'objet navigation. Les couleurs réfèrent à https://mdbootstrap.com/docs/jquery/css/demo/#colors '''
+    col1, col2 = None, None
+    is1Col = isinstance(navigation, Nav1Colums)
+    if not is1Col :
+        col1, col2 = navigation.GetElementsList()
+    else :
+        col1 = navigation.GetElementList()
+        col2 = navigation._align
         
-        return {'is1Col' : is1Col,
-                'title' : navigation._navTile,
-                'link' : navigation._homeLink,
-                'col1' : col1,
-                'col2' : col2,
-                'idActiveLink' : activeLink}
+    return {'is1Col' : is1Col,
+            'color' : color,
+            'title' : navigation._navTile,
+            'link' : navigation._homeLink,
+            'col1' : col1,
+            'col2' : col2,
+            'idActiveLink' : activeLink}
 
