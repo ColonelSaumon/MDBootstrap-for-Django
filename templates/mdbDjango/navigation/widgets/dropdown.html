@@ -1,0 +1,9 @@
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle{% if widget.is_disabled %} disabled{% endif %}" id="navbarDropdownMenuLink" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">{{ widget.label }}</a>
+    <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+        {% for element in widget.elements %}
+            <a class="dropdown-item{% if element.is_disabled %} disabled{% endif %}" href="{{ element.url }}">{{ element.label }}</a>
+        {% endfor %}
+    </div>
+</li>
